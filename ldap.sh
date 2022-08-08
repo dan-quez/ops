@@ -11,7 +11,11 @@ echo -e "${FY}..:: Welcome to LDAP ::..${F0}\n";
         echo -e "0) Creacion de Usuario";
         echo -e "1) Creacion de Grupo";
         echo -e "2) Agregar Usuario a Grupo";
-		echo -e "3) ${FR}Salir${F0}";
+        echo -e "3) Consultar un Usuario";
+        echo -e "4) Consultar un Grupo";
+        echo -e "5) Eliminar un Usuario";
+        echo -e "6) Eliminar un Grupo";
+		echo -e "7) ${FR}Salir${F0}";
 	read OP;
 	clear
 ###0###
@@ -32,6 +36,26 @@ echo -e "${FY}..:: Welcome to LDAP ::..${F0}\n";
 ###3###
             if [ $OP = 3 ];
                 then
+        tres        
+                fi
+###4###
+            if [ $OP = 4 ];
+                then
+        cuatro        
+                fi
+###5###
+            if [ $OP = 5 ];
+                then
+        cinco        
+                fi
+###6###
+            if [ $OP = 6 ];
+                then
+        seis        
+                fi
+###7###
+            if [ $OP = 7 ];
+                then
         salir        
                 fi
 }
@@ -42,9 +66,8 @@ echo -e "${FY}Creacion de Usuario${F0}"
 echo -e "Indica el Usuario"
 read "user";
 #se almacena /etc/passwd
- name_user=$(echo "${user}")
-
 useradd ${user};
+passwd ${user};
 #Esta espera por si salta algun error
 sleep 4;
 clear
@@ -56,8 +79,6 @@ echo -e "${FY}Creacion de Grupo${F0}"
 echo -e "Indica el Grupo"
 read "group";
 #se almacena /etc/group
- name_group=$(echo "${group}")
-
 groupadd ${group};
 #Esta espera por si salta algun error
 sleep 4;
@@ -71,11 +92,53 @@ echo -e "Indica el Usuario"
 read "user";
 echo -e "Indica el Grupo"
 read "group";
-
- name_user=$(echo "${user}")
- name_group=$(echo "${group}")
-
 usermod -G ${group} ${user};
+#Esta espera por si salta algun error
+sleep 4;
+clear
+menu
+}
+function tres {
+echo -e "${FY}Consultar un Usuario${F0}"
+echo -e "Indica el Usuario";
+read "user";
+#se almacena /etc/passwd
+# name_user=$(echo "${user}")
+search_user=$(id ${user});
+echo ${search_user};
+#Esta espera por si salta algun error
+sleep 4;
+clear
+menu
+}
+function cuatro {
+echo -e "Consultar un Grupo";
+echo -e "Indica el Grupo";
+read "group";
+search_group=$(cat /etc/group | grep ${group});
+echo ${search_group};
+#Esta espera por si salta algun error
+sleep 4;
+clear
+menu
+}
+function cinco {
+echo -e "Eliminar un Usuario";
+echo -e "Indica el Usuario";
+read "user";
+delete_user=$(userdel -r ${user});
+echo ${delete_user};
+#Esta espera por si salta algun error
+sleep 4;
+clear
+menu
+}
+function seis {
+echo -e "Eliminar un Grupo";
+echo -e "Indica el Grupo";
+read "group";
+delete_group=$(groupdel -f ${group});
+echo ${delete_group};
 #Esta espera por si salta algun error
 sleep 4;
 clear
